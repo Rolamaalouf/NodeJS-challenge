@@ -111,6 +111,7 @@ function help() {
   console.log('  - help: List all available commands');
   console.log('  - add [task]: Add a new task');
   console.log('  - remove [index]: Remove a task by its number (e.g., "remove 1" removes the first task, "remove" removes the last task)');
+  console.log('  - edit [index] [new text]: Edit a task at the given index, or the last task if no index is provided');
 }
   // Pre-populated tasks
   const tasks = [
@@ -168,6 +169,22 @@ function onDataReceived(text) {
       removeTask();  // Call removeTask without an index to remove the last task
     }
   }
+  if (command === 'edit') {
+    if (parts.length > 1) {
+      if (parts[1].match(/^\d+$/)) {
+        // If the second part is a number (index)
+        const index = parseInt(parts[1]);
+        const newText = parts.slice(2).join(' ');  // Everything after the number is the new text
+        editTask(index, newText);
+      } else {
+        // If no index is provided, update the last task
+        const newText = parts.slice(1).join(' ');
+        editTask(undefined, newText);
+      }
+    } else {
+      console.log('Error: You must provide a task description after "edit".');
+    }
+
   // Handle other commands...
 }
 
@@ -233,6 +250,32 @@ function removeTask(index) {
       console.log(`Removed task: "${removedTask[0]}"`);
     } else {
       console.log('Error: Invalid task number.');
+    }
+  }
+}
+}
+function editTask(index, newText) {
+  if (!newText) {
+    console.log('Error: You must provide the new task text after "edit".');
+    return;
+  }
+
+  if (index === undefined) {
+    // If no index is provided, edit the last task
+    if (tasks.length > 0) {
+      tasks[tasks.length - 1] = newText;  // Update the last task
+      console.log(`Last task updated to: "${newText}"`);
+    } else {
+      console.log('Error: No tasks available to edit.');
+    }
+  } else {
+    // If an index is provided, edit the task at that index (1-based index)
+    const taskIndex = index - 1;  // Convert to 0-based index
+    if (taskIndex >= 0 && taskIndex < tasks.length) {
+      tasks[taskIndex] = newText;  // Update the task at the specified index
+      console.log(`Task ${index} updated to: "${newText}"`);
+    } else {
+      console.log('Error: Invalid task number. No task found at that index.');
     }
   }
 }
