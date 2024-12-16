@@ -109,6 +109,8 @@ function help() {
   console.log('  - exit: Exit the application');
   console.log('  - hello: Print a greeting message');
   console.log('  - help: List all available commands');
+  console.log('  - add [task]: Add a new task');
+  console.log('  - remove [index]: Remove a task by its number (e.g., "remove 1" removes the first task, "remove" removes the last task)');
 }
   // Pre-populated tasks
   const tasks = [
