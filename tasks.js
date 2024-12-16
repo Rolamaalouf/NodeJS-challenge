@@ -114,6 +114,7 @@ function onDataReceived(text) {
     unknownCommand(text); // Handle unknown commands
   }
 }
+// The help function is designed to provide users with a list of available commands that they can use within your app. 
 
 // The function to show the help text
 function help() {
