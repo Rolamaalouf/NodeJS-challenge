@@ -114,11 +114,11 @@ function help() {
   console.log('  - edit [index] [new text]: Edit a task at the given index, or the last task if no index is provided');
 }
   // Pre-populated tasks
-  const tasks = [
-    "Buy groceries",
-    "Clean the house",
-    "Write some code",
-    "Read a book"
+  let tasks = [
+    {text:"Buy groceries",done:false},
+    {text:"Clean the house",done:true},
+    {text:"Write some code",done:false},
+    {text:"Read a book",done:true}
   ];
   
 function onDataReceived(text) {
@@ -217,10 +217,11 @@ function unknownCommand(text) {
     if (tasks.length === 0) {
       console.log('No tasks available.');
     } else {
-      console.log('List of tasks:');
-      tasks.forEach((task, index) => {
-        console.log(`${index + 1}. ${task}`); // Display task number and task
-      });
+  tasks.forEach((task, index) => {
+    // Explicitly access 'text' and 'done' properties
+    const status = task.done ? '[Done]' : '[Pending]';
+    console.log(`${index + 1}. ${task.text} ${status}`);
+  });
     }
   }
   // Function to add a new task
@@ -277,5 +278,18 @@ function editTask(index, newText) {
     } else {
       console.log('Error: Invalid task number. No task found at that index.');
     }
+  }
+}
+function markTaskDone(index) {
+  if (index === undefined) {
+    console.log('Error: You must provide a task number after "done".');
+    return;
+  }
+  const taskIndex = index - 1; // Convert to 0-based index
+  if (taskIndex >= 0 && taskIndex < tasks.length) {
+    tasks[taskIndex].done = true;
+    console.log(`Task ${index} marked as done.`);
+  } else {
+    console.log('Error: Invalid task number. No task found at that index.');
   }
 }
