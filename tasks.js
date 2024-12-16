@@ -146,6 +146,10 @@ function onDataReceived(text) {
       else if (command === 'list') {
         listTasks(); // Call the list function to show all tasks
       }
+       // Handle "add" command
+  else if (command === 'add') {
+    addTask(parts.slice(1).join(' ')); // Pass the remaining part as the task description
+  }
   else {
     unknownCommand(text); // Handle unknown commands
   }
@@ -166,6 +170,7 @@ function help() {
   console.log('  - quit: Exit the application');
   console.log('  - exit: Exit the application');
   console.log('  - hello [name]: Greet the person with the name');
+  console.log('  - list: List all tasks');
   console.log('  - help: List all available commands');
 }
 
@@ -184,3 +189,12 @@ function unknownCommand(text) {
       });
     }
   }
+  // Function to add a new task
+function addTask(task) {
+  if (task) {
+    tasks.push(task); // Add the task to the list
+    console.log(`Task added: "${task}"`);
+  } else {
+    console.log('Error: You must provide a task description after "add".');
+  }
+}
