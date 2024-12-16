@@ -110,4 +110,61 @@ function help() {
   console.log('  - hello: Print a greeting message');
   console.log('  - help: List all available commands');
 }
+function onDataReceived(text) {
+  // Clean up the input by removing any unnecessary newlines or extra spaces
+  const cleanedText = text.replace(/[\n\r]+$/, '').trim();
+  
+  // Split the cleaned text into words
+  const parts = cleanedText.split(/\s+/);  // Split by any whitespace
+  
+  // Extract the first word (command)
+  const command = parts[0];
+  
+  // Handle "quit" or "exit" commands
+  if (command === 'quit' || command === 'exit') {
+    quit(); // Call the quit function
+  }
+  // Handle "hello" command with or without an argument
+  else if (command === 'hello') {
+    // If there is a second word (argument), say hello to it
+    const name = parts.length > 1 ? parts.slice(1).join(' ') : '';
+    hello(name); // Call the hello function with the argument (or empty string)
+  }
+  // Handle "help" command
+  else if (command === 'help') {
+    help(); // Call the help function
+  }
+  else {
+    unknownCommand(text); // Handle unknown commands
+  }
+}
+
+// The function to greet with or without an argument
+function hello(name) {
+  if (name) {
+    console.log(`Hello ${name}!`);
+  } else {
+    console.log('Hello!');
+  }
+}
+
+// The function to show the help text
+function help() {
+  console.log('Available commands:');
+  console.log('  - quit: Exit the application');
+  console.log('  - exit: Exit the application');
+  console.log('  - hello [name]: Greet the person with the name');
+  console.log('  - help: List all available commands');
+}
+
+// Placeholder function for quit and unknownCommand
+function quit() {
+  console.log('Quitting...');
+}
+
+function unknownCommand(text) {
+  console.log('Unknown command:', text);
+}
+
+
 
