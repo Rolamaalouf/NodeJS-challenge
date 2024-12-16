@@ -153,7 +153,22 @@ function onDataReceived(text) {
   else {
     unknownCommand(text); // Handle unknown commands
   }
+  if (command === 'remove') {
+    if (parts.length > 1) {
+      // If an argument is provided, parse it as an index
+      const index = parseInt(parts[1]);
+      if (!isNaN(index)) {
+        removeTask(index);  // Call the removeTask function with the index
+      } else {
+        console.log('Error: Invalid task number.');
+      }
+    } else {
+      removeTask();  // Call removeTask without an index to remove the last task
+    }
+  }
+  // Handle other commands...
 }
+
 
 // The function to greet with or without an argument
 function hello(name) {
@@ -198,3 +213,25 @@ function addTask(task) {
     console.log('Error: You must provide a task description after "add".');
   }
 }
+// Function to remove a task based on the index or remove the last task
+function removeTask(index) {
+  if (index === undefined) {
+    // If no index is provided, remove the last task
+    if (tasks.length > 0) {
+      const removedTask = tasks.pop();
+      console.log(`Removed task: "${removedTask}"`);
+    } else {
+      console.log('Error: No tasks to remove.');
+    }
+  } else {
+    // If an index is provided, remove the task at that index (1-based index)
+    const taskIndex = index - 1;  // Convert to 0-based index
+    if (taskIndex >= 0 && taskIndex < tasks.length) {
+      const removedTask = tasks.splice(taskIndex, 1);
+      console.log(`Removed task: "${removedTask[0]}"`);
+    } else {
+      console.log('Error: Invalid task number.');
+    }
+  }
+}
+
