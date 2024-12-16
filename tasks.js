@@ -110,6 +110,14 @@ function help() {
   console.log('  - hello: Print a greeting message');
   console.log('  - help: List all available commands');
 }
+  // Pre-populated tasks
+  const tasks = [
+    "Buy groceries",
+    "Clean the house",
+    "Write some code",
+    "Read a book"
+  ];
+  
 function onDataReceived(text) {
   // Clean up the input by removing any unnecessary newlines or extra spaces
   const cleanedText = text.replace(/[\n\r]+$/, '').trim();
@@ -134,6 +142,10 @@ function onDataReceived(text) {
   else if (command === 'help') {
     help(); // Call the help function
   }
+      // Handle "list" command
+      else if (command === 'list') {
+        listTasks(); // Call the list function to show all tasks
+      }
   else {
     unknownCommand(text); // Handle unknown commands
   }
@@ -157,11 +169,18 @@ function help() {
   console.log('  - help: List all available commands');
 }
 
-// Placeholder function for quit and unknownCommand
-function quit() {
-  console.log('Quitting...');
-}
 
 function unknownCommand(text) {
   console.log('Unknown command:', text);
 }
+  // Function to list all tasks
+  function listTasks() {
+    if (tasks.length === 0) {
+      console.log('No tasks available.');
+    } else {
+      console.log('List of tasks:');
+      tasks.forEach((task, index) => {
+        console.log(`${index + 1}. ${task}`); // Display task number and task
+      });
+    }
+  }
