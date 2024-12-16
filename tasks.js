@@ -97,3 +97,30 @@ function onDataReceived(text) {
     unknownCommand(text); // Handle unknown commands
   }
 }
+function onDataReceived(text) {
+  // Directly check for commands, allowing for some flexibility with whitespace or newlines
+  const command = text.replace(/[\n\r]+$/, ''); // Remove trailing newlines or carriage returns
+
+  if (command === 'quit' || command === 'exit') {
+    quit(); // Call the quit function
+  }
+  else if (command === 'hello') {
+    hello(); // Call the hello function
+  }
+  else if (command === 'help') {
+    help(); // Call the help function
+  }
+  else {
+    unknownCommand(text); // Handle unknown commands
+  }
+}
+
+// The function to show the help text
+function help() {
+  console.log('Available commands:');
+  console.log('  - quit: Exit the application');
+  console.log('  - exit: Exit the application');
+  console.log('  - hello: Print a greeting message');
+  console.log('  - help: List all available commands');
+}
+
