@@ -165,6 +165,3 @@ function quit() {
 function unknownCommand(text) {
   console.log('Unknown command:', text);
 }
-
-
-
