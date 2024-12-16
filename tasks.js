@@ -34,17 +34,19 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text === 'quit\n') {
-    quit();
+  console.log('Received text:', text);  // Log the received text to see its exact content
+    const command = text.trim();
+  
+    if (command === 'quit') {
+      quit();
+    }
+    else if (command === 'hello') {
+      hello();
+    }
+    else {
+      unknownCommand(text);
+    }
   }
-  else if(text === 'hello\n'){
-    hello();
-  }
-  else{
-    unknownCommand(text);
-  }
-}
-
 
 /**
  * prints "unknown command"
@@ -79,4 +81,4 @@ function quit(){
 }
 
 // The following line starts the application
-startApp("Jad Sarout")
+startApp("Rola Maalouf")
