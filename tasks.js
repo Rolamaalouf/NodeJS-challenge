@@ -82,3 +82,18 @@ function quit(){
 
 // The following line starts the application
 startApp("Rola Maalouf")
+function onDataReceived(text) {
+  // Clean up the input by removing any unnecessary whitespace or newline characters
+  const command = text.trim();
+
+  // Check if the command is "quit" or "exit"
+  if (command === 'quit' || command === 'exit') {
+    quit(); // Call the quit function
+  }
+  else if (command === 'hello') {
+    hello(); // Call the hello function
+  }
+  else {
+    unknownCommand(text); // Handle unknown commands
+  }
+}
