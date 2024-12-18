@@ -1,3 +1,46 @@
+/**
+ * Json part
+ */
+
+const fs = require('fs');
+ 
+let databaseFile = "database.json";
+tasks = [];
+ 
+if (process.argv[2]) {
+  databaseFile = process.argv[2];
+}
+
+function loadTasks() {
+  try {
+    if (!fs.existsSync(databaseFile)) {
+      fs.writeFileSync(databaseFile, JSON.stringify([], null, 2), 'utf8');
+      console.log("No saved tasks found, creating new file.");
+    } else {
+      const data = fs.readFileSync(databaseFile, 'utf8');
+      tasks = JSON.parse(data);
+      if (tasks.length===0)
+        console.log("loaded file successfully with empty tasks.");
+        else
+      console.log("Tasks loaded successfully.");
+    }
+  } catch (error) {
+    console.log("Error loading tasks:", error);
+  }
+}
+
+ 
+function saveTasks() {
+  try {
+    const data = JSON.stringify(tasks, null, 2); 
+    fs.writeFileSync(databaseFile, data, 'utf8');
+    console.log("Tasks saved successfully.");
+  } catch (error) {
+    console.log("Error saving tasks:", error);
+  }
+}
+ 
+//process.on('exit', saveTasks);
 
 
 /**
