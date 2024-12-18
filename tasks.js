@@ -1,10 +1,4 @@
-// Pre-populated tasks
-let tasks = [
-  { text: "Buy groceries", done: false },
-  { text: "Clean the house", done: true },
-  { text: "Write some code", done: false },
-  { text: "Read a book", done: true }
-];
+
 
 /**
  * Starts the application
@@ -58,24 +52,20 @@ function onDataReceived(text) {
     removeTask(parts.length > 1 ? parseInt(parts[1]) : undefined); // Remove a task
   } else if (command === 'edit') {
     editTask(parts[1] ? parseInt(parts[1]) : undefined, parts.slice(2).join(' ')); // Edit a task
-  } else if (command === 'check') {
-    if (parts.length > 1) {
-      const index = parseInt(parts[1]);
-      checkTask(index); // Mark a task as done
-    } else {
-      console.log('Error: You must provide a task number after "check".');
-    }
-  } else if (command === 'uncheck') {
-    if (parts.length > 1) {
-      const index = parseInt(parts[1]);
-      uncheckTask(index); // Mark a task as not done
-    } else {
-      console.log('Error: You must provide a task number after "uncheck".');
-    }
-  } else {
-    unknownCommand(text); // Handle unknown commands
-  }
+  } else if (command === 'check' || command === 'uncheck') {
+    const taskNumber = parts.length > 1 ? parseInt(parts[1]) : undefined; // Get task number from command
+    toggleTaskStatus(command, taskNumber); // Call the new function to handle both
+} else {
+  unknownCommand(text); // Handle unknown commands
 }
+}
+// Pre-populated tasks
+let tasks = [
+  { text: "Buy groceries", done: false },
+  { text: "Clean the house", done: true },
+  { text: "Write some code", done: false },
+  { text: "Read a book", done: true }
+];
 
 /**
  * Prints "unknown command"
@@ -213,49 +203,26 @@ function editTask(index, newText) {
     }
   }
 }
-
-/**
- * Marks a task as done (check it)
- *
- * @param {number} index the task index to check
- * @returns {void}
- */
-function checkTask(index) {
-  if (index === undefined) {
-    console.log('Error: You must provide a task number after "check".');
+function toggleTaskStatus(command, taskNumber) {
+  if (taskNumber === undefined) {
+    console.log(`Error: You must provide a task number after "${command}".`);
     return;
   }
 
-  const taskIndex = index - 1;  // Convert to 0-based index
-  if (taskIndex >= 0 && taskIndex < tasks.length) {
-    tasks[taskIndex].done = true;  // Mark the task as done
-    console.log(`Task ${index} marked as done.`);
+  if (taskNumber >= 1 & taskNumber <= tasks.length) {
+    const taskIndex = taskNumber - 1;
+    
+    if (command === 'check') {
+      tasks[taskIndex].done = true;  // Mark the task as done
+      console.log(`Task ${taskNumber} marked as done.`);
+    } else if (command === 'uncheck') {
+      tasks[taskIndex].done = false;  // Mark the task as not done
+      console.log(`Task ${taskNumber} marked as not done.`);
+    }
   } else {
     console.log('Error: Invalid task number.');
   }
 }
-
-/**
- * Marks a task as not done (uncheck it)
- *
- * @param {number} index the task index to uncheck
- * @returns {void}
- */
-function uncheckTask(index) {
-  if (index === undefined) {
-    console.log('Error: You must provide a task number after "uncheck".');
-    return;
-  }
-
-  const taskIndex = index - 1;  // Convert to 0-based index
-  if (taskIndex >= 0 && taskIndex < tasks.length) {
-    tasks[taskIndex].done = false;  // Mark the task as not done
-    console.log(`Task ${index} marked as not done.`);
-  } else {
-    console.log('Error: Invalid task number.');
-  }
-}
-
 // Start the application
 startApp("Rola Maalouf");
 
