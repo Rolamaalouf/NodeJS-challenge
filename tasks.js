@@ -3,9 +3,9 @@
  */
 
 const fs = require('fs');
- 
+
 let databaseFile = "database.json";
-tasks = [];
+tasks= [];
  
 if (process.argv[2]) {
   databaseFile = process.argv[2];
