@@ -1,12 +1,8 @@
-/**
- * Json part
- */
-
 const fs = require('fs');
 
 let databaseFile = "database.json";
-tasks= [];
- 
+let tasks = [];  // Declare tasks at the top globally
+
 if (process.argv[2]) {
   databaseFile = process.argv[2];
 }
@@ -18,18 +14,18 @@ function loadTasks() {
       console.log("No saved tasks found, creating new file.");
     } else {
       const data = fs.readFileSync(databaseFile, 'utf8');
-      tasks = JSON.parse(data);
-      if (tasks.length===0)
-        console.log("loaded file successfully with empty tasks.");
-        else
-      console.log("Tasks loaded successfully.");
+      tasks = JSON.parse(data);  // Assign the loaded tasks to the global variable
+      if (tasks.length === 0) {
+        console.log("Loaded file successfully with empty tasks.");
+      } else {
+        console.log("Tasks loaded successfully.");
+      }
     }
   } catch (error) {
     console.log("Error loading tasks:", error);
   }
 }
 
- 
 function saveTasks() {
   try {
     const data = JSON.stringify(tasks, null, 2); 
@@ -39,9 +35,9 @@ function saveTasks() {
     console.log("Error saving tasks:", error);
   }
 }
- 
-//process.on('exit', saveTasks);
 
+// Uncomment this line to save tasks on exit, if needed
+// process.on('exit', saveTasks);
 
 /**
  * Starts the application
